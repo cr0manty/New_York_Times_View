@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cr0manty.ny_times">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="ny_times"
         android:icon="@mipmap/ic_launcher">
         <activity
