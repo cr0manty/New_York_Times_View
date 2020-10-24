@@ -17,6 +17,8 @@ dependencies:
   shared_preferences:
   cached_network_image:
   intl:
+  url_launcher:
+  sqflite:
 
 dev_dependencies:
   flutter_test:

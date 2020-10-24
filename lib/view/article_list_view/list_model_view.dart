@@ -21,7 +21,7 @@ class ArticleListModelView {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List articles = (prefs.getStringList('Articles') ?? []).map((dynamic i) {
       Map<String, dynamic> jsonData = json.decode(i);
-      Article.fromJson(jsonData);
+      return Article.fromJson(jsonData);
     }).toList();
     _onArticleListChanged.add(articles);
   }

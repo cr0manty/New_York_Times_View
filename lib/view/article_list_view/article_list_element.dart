@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ny_times/models/article.dart';
 import 'package:ny_times/utils/image_view.dart';
-import 'package:ny_times/view/article_detail_view/detail_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticleListElement extends StatelessWidget {
   final Article article;
@@ -13,14 +13,24 @@ class ArticleListElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ArticleDetailView(
-              article: article,
+      onTap: () async {
+        if (await canLaunch(article.url)) {
+          await launch(article.url);
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text("Oops..."),
+              content: Text("Smth went wrong"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: Navigator.of(context).pop,
+                )
+              ],
             ),
-          ),
-        );
+          );
+        }
       },
       child: Container(
         height: 175,
@@ -36,7 +46,7 @@ class ArticleListElement extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    article.title ?? '',
+                    article?.title ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -45,13 +55,11 @@ class ArticleListElement extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    article.abstract ?? '',
+                    article?.abstract ?? '',
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black.withOpacity(0.8)
-                    ),
+                        fontSize: 15, color: Colors.black.withOpacity(0.8)),
                   ),
                   SizedBox(height: 5),
                   Align(
@@ -61,10 +69,7 @@ class ArticleListElement extends StatelessWidget {
                       textAlign: TextAlign.right,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                   )
                 ],

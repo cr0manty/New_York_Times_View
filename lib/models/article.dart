@@ -53,6 +53,4 @@ class Article {
     DateTime date = DateFormat('y-MM-ddTHH:mm:ss').parse(publishedDate);
     return DateFormat('dd MMM y').format(date);
   }
-
-
 }
